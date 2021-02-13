@@ -104,8 +104,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint8_t iterator = 0;
-  const float MAX_PWM_MS = 2;
-  const float MIN_PWM_MS = 1;
+  const float MAX_PWM_MS = 2.0f;
+  const float MIN_PWM_MS = 1.0f;
   const int MAX_ITERATOR = 8.0;
   int data[10] = {0,1,2,3,4,5,6,7,8,9};
 
@@ -122,7 +122,9 @@ int main(void)
 	  HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, isBitSet(iterator, 2));
 
 	  /**Servo Tests**/
-	  htim3.Instance->CCR2 = (MAX_PWM_MS-MIN_PWM_MS)*(iterator/MAX_ITERATOR)+MIN_PWM_MS;
+	  float servoMs = (MAX_PWM_MS-MIN_PWM_MS)*(iterator/MAX_ITERATOR)+MIN_PWM_MS;
+	  htim3.Instance->CCR2 = servoMs/MAX_PWM_MS*htim3.Init.Period;
+    
 
 	  /**Chip Select Tests**/
 	  HAL_GPIO_WritePin(CS_WRST_GPIO_Port, CS_WRST_Pin, isBitSet(iterator, 0));
