@@ -60,6 +60,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define PWM_SERVO_Pin GPIO_PIN_7
 #define PWM_SERVO_GPIO_Port GPIOA
+#define MOTOR_DIR_Pin GPIO_PIN_7
+#define MOTOR_DIR_GPIO_Port GPIOE
 #define CS_WRST_Pin GPIO_PIN_0
 #define CS_WRST_GPIO_Port GPIOD
 #define CS_SHLDR_3_Pin GPIO_PIN_1

@@ -117,19 +117,25 @@ int main(void)
 	  }
 
 	  /**RGB LED Tests**/
-	  HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, isBitSet(iterator, 0));
-	  HAL_GPIO_WritePin(LEDG_GPIO_Port, LEDG_Pin, isBitSet(iterator, 1));
-	  HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, isBitSet(iterator, 2));
+	  //HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, isBitSet(iterator, 0));
+	  //HAL_GPIO_WritePin(LEDG_GPIO_Port, LEDG_Pin, isBitSet(iterator, 1));
+	  //HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, isBitSet(iterator, 2));
+	  HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, 1);
+	  HAL_GPIO_WritePin(LEDG_GPIO_Port, LEDG_Pin, 1);
+	  HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, 1);
+
 
 	  /**Servo Tests**/
-	  float servoMs = (MAX_PWM_MS-MIN_PWM_MS)*(iterator/MAX_ITERATOR)+MIN_PWM_MS;
-	  htim3.Instance->CCR2 = servoMs/MAX_PWM_MS*htim3.Init.Period;
-    
+	  htim3.Instance->CCR2 = iterator*40000/MAX_ITERATOR;
+
 
 	  /**Chip Select Tests**/
 	  HAL_GPIO_WritePin(CS_WRST_GPIO_Port, CS_WRST_Pin, isBitSet(iterator, 0));
 	  HAL_GPIO_WritePin(CS_SHLDR_3_GPIO_Port, CS_SHLDR_3_Pin, isBitSet(iterator, 0));
 	  HAL_GPIO_WritePin(CS_SHLDR_4_GPIO_Port, CS_SHLDR_4_Pin, isBitSet(iterator, 0));
+
+	  /**GPIO Tests**/
+	  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, isBitSet(iterator, 0));
 
 	  HAL_SPI_Transmit(&hspi1, data, 10, 10);
 	  HAL_SPI_Transmit(&hspi2, data, 10, 10);
@@ -137,7 +143,7 @@ int main(void)
 	  HAL_SPI_Transmit(&hspi4, data, 10, 10);
 
 	  iterator++;
-	  HAL_Delay(100);
+	  HAL_Delay(250);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
