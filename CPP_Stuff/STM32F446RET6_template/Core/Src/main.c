@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdint.h>
 
 /* USER CODE END Includes */
 
@@ -32,6 +33,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define ISBITSET(byte, bit) (byte & (1 << bit))
+#define ISBITCLEAR(byte, bit) !(byte & (1 << bit))
+#define TOGGLEBIT(byte, bit) (byte ^= (1 << bit))
+#define SIGNOF(val) ((0 < (val)) - ((val) < 0))
+#define min(a,b) a<b?a:b 
+#define max(a,b) a>b?a:b
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,7 +55,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void delayMs(uint16_t n);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -84,14 +91,27 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-
+  RCC->AHB1ENR |= 1 << 2; //Enable Clock GPIOC
+  RCC->AHB1ENR |= 1 << 0;
+  GPIOA->MODER &= ~0x00000C00;
+  GPIOA->MODER |= 1 << 10; //write 01 to the MODERa register
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    
     /* USER CODE END WHILE */
+    
+    if(GPIOC->IDR & 0x2000)
+    {
+      GPIOA->ODR |= 1 << 5;
+    }
+    else
+    {
+      GPIOA->ODR &= ~(1 << 5);    
+    }
 
     /* USER CODE BEGIN 3 */
   }
